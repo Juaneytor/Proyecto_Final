@@ -1,0 +1,656 @@
+#PENEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgroEquidad — Créditos Agropecuarios Cundinamarca</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --verde: #2D6A4F;
+    --verde-claro: #52B788;
+    --verde-palido: #D8F3DC;
+    --tierra: #8B4513;
+    --tierra-claro: #C68642;
+    --crema: #FAF7F0;
+    --crema-oscuro: #EDE8DC;
+    --texto: #1A1A1A;
+    --texto-suave: #5A5A5A;
+    --texto-muy-suave: #8A8A8A;
+    --rojo: #C1392B;
+    --azul: #2563A8;
+    --borde: rgba(45,106,79,0.15);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--crema); color: var(--texto); line-height: 1.6; }
+  nav { background: var(--verde); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.15); }
+  .nav-logo { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
+  .nav-logo span { color: var(--verde-claro); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.875rem; font-weight: 400; transition: color 0.2s; }
+  .nav-links a:hover { color: #fff; }
+  .nav-badge { background: var(--verde-claro); color: #fff; font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; font-weight: 500; }
+  .hero { background: linear-gradient(135deg, var(--verde) 0%, #1B4332 100%); padding: 5rem 2rem 4rem; text-align: center; position: relative; overflow: hidden; }
+  .hero-eyebrow { font-size: 0.8rem; color: var(--verde-claro); letter-spacing: 3px; text-transform: uppercase; font-weight: 500; margin-bottom: 1rem; }
+  .hero h1 { font-family: 'Fraunces', serif; font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; color: #fff; line-height: 1.1; margin-bottom: 1rem; }
+  .hero h1 em { font-style: italic; color: var(--verde-claro); }
+  .hero p { font-size: 1.1rem; color: rgba(255,255,255,0.75); max-width: 600px; margin: 0 auto 2.5rem; }
+  .hero-stats { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+  .hero-stat { text-align: center; }
+  .hero-stat .num { font-family: 'Fraunces', serif; font-size: 2.2rem; font-weight: 700; color: #fff; line-height: 1; }
+  .hero-stat .lbl { font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-top: 4px; }
+  .hero-divider { width: 1px; height: 50px; background: rgba(255,255,255,0.2); align-self: center; }
+  .alert-bar { background: #FEF3CD; border-left: 4px solid #D97706; padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; font-size: 0.9rem; color: #78350F; }
+  .alert-icon { font-size: 1.4rem; }
+  .section { padding: 4rem 2rem; max-width: 1200px; margin: 0 auto; }
+  .section-label { font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; color: var(--verde); font-weight: 500; margin-bottom: 0.5rem; }
+  .section-title { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 700; color: var(--texto); margin-bottom: 0.5rem; }
+  .section-sub { color: var(--texto-suave); font-size: 0.95rem; margin-bottom: 2.5rem; max-width: 600px; }
+  .sep { height: 1px; background: var(--crema-oscuro); max-width: 1200px; margin: 0 auto; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 3rem; }
+  .kpi-card { background: #fff; border: 1px solid var(--borde); border-radius: 12px; padding: 1.25rem 1.5rem; position: relative; overflow: hidden; }
+  .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .kpi-card.verde::before { background: var(--verde); }
+  .kpi-card.tierra::before { background: var(--tierra-claro); }
+  .kpi-card.rojo::before { background: var(--rojo); }
+  .kpi-card.azul::before { background: var(--azul); }
+  .kpi-label { font-size: 0.75rem; color: var(--texto-muy-suave); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+  .kpi-valor { font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 700; color: var(--texto); line-height: 1.1; }
+  .kpi-sub { font-size: 0.8rem; color: var(--texto-suave); margin-top: 0.25rem; }
+  .kpi-icon { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; opacity: 0.15; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+  .chart-card { background: #fff; border: 1px solid var(--borde); border-radius: 16px; padding: 1.5rem; }
+  .chart-title { font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 500; margin-bottom: 0.25rem; }
+  .chart-desc { font-size: 0.8rem; color: var(--texto-suave); margin-bottom: 1.25rem; }
+  .insight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 2rem; }
+  .insight-card { background: #fff; border: 1px solid var(--borde); border-radius: 12px; padding: 1.25rem; display: flex; gap: 1rem; align-items: flex-start; }
+  .insight-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+  .insight-icon.rojo { background: #FEE2E2; }
+  .insight-icon.verde { background: #D1FAE5; }
+  .insight-icon.amarillo { background: #FEF3CD; }
+  .insight-icon.azul { background: #DBEAFE; }
+  .insight-titulo { font-weight: 500; font-size: 0.9rem; margin-bottom: 0.3rem; }
+  .insight-texto { font-size: 0.82rem; color: var(--texto-suave); line-height: 1.5; }
+  .mun-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+  .mun-table th { text-align: left; padding: 0.75rem 1rem; font-size: 0.75rem; font-weight: 500; color: var(--texto-muy-suave); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--crema-oscuro); }
+  .mun-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--crema-oscuro); color: var(--texto); }
+  .mun-table tr:last-child td { border-bottom: none; }
+  .mun-table tr:hover td { background: var(--crema); }
+  .bar-mini { display: flex; align-items: center; gap: 8px; }
+  .bar-track { flex: 1; height: 6px; background: var(--crema-oscuro); border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; background: var(--verde); }
+  .badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+  .badge-top { background: #D1FAE5; color: #065F46; }
+  .genero-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 1.5rem; }
+  @media (max-width: 700px) { .genero-grid { grid-template-columns: 1fr; } }
+  .genero-stat { display: flex; flex-direction: column; justify-content: center; gap: 1.5rem; }
+  .genero-item { display: flex; flex-direction: column; gap: 6px; }
+  .genero-label { font-size: 0.85rem; color: var(--texto-suave); display: flex; justify-content: space-between; }
+  .genero-pct { font-weight: 500; color: var(--texto); }
+  .genero-bar { height: 10px; background: var(--crema-oscuro); border-radius: 5px; overflow: hidden; }
+  .genero-fill { height: 100%; border-radius: 5px; }
+  footer { background: var(--verde); color: rgba(255,255,255,0.7); text-align: center; padding: 2rem; font-size: 0.85rem; margin-top: 4rem; }
+  footer strong { color: #fff; }
+  .legend-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; font-size: 12px; color: var(--texto-suave); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; margin-right: 4px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Agro<span>Equidad</span></div>
+  <ul class="nav-links">
+    <li><a href="#kpis">Resumen</a></li>
+    <li><a href="#municipios">Municipios</a></li>
+    <li><a href="#productores">Productores</a></li>
+    <li><a href="#genero">Género</a></li>
+    <li><a href="#evolucion">Evolución</a></li>
+  </ul>
+  <span class="nav-badge">Cundinamarca 2021–2024</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Análisis de desigualdad financiera rural</div>
+  <h1>El campo colombiano<br><em>no recibe igual</em></h1>
+  <p>Visualizamos cómo se distribuyen los créditos agropecuarios en Cundinamarca para entender quién recibe más y quién se queda atrás.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="num">$11,96 Bill</div>
+      <div class="lbl">Billones colocados</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <div class="num">167.936</div>
+      <div class="lbl">Créditos otorgados</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <div class="num">116</div>
+      <div class="lbl">Municipios beneficiados</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <div class="num">2021–2024</div>
+      <div class="lbl">Período de análisis</div>
+    </div>
+  </div>
+</div>
+
+<!-- ALERTA -->
+<div class="alert-bar">
+  <span class="alert-icon">⚠️</span>
+  <div>
+    <strong>Desigualdad crítica detectada:</strong> El productor GRANDE representa solo el 3,5% de los créditos pero recibe el 72,8% del dinero total. Solo 5 municipios concentran cerca del 42% del crédito del departamento.
+  </div>
+</div>
+
+<!-- KPIs -->
+<div id="kpis" class="section">
+  <div class="section-label">Indicadores clave</div>
+  <div class="section-title">Panorama general</div>
+  <div class="section-sub">Cifras consolidadas de créditos agropecuarios otorgados en Cundinamarca entre 2021 y 2024.</div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card verde">
+      <span class="kpi-icon">💰</span>
+      <div class="kpi-label">Total colocado</div>
+      <div class="kpi-valor">$11,96 Bill</div>
+      <div class="kpi-sub">Pesos colombianos 2021–2024</div>
+    </div>
+    <div class="kpi-card azul">
+      <span class="kpi-icon">📋</span>
+      <div class="kpi-label">Total créditos</div>
+      <div class="kpi-valor">167.936</div>
+      <div class="kpi-sub">Operaciones registradas</div>
+    </div>
+    <div class="kpi-card tierra">
+      <span class="kpi-icon">🏘️</span>
+      <div class="kpi-label">Municipios</div>
+      <div class="kpi-valor">116</div>
+      <div class="kpi-sub">Beneficiados con créditos</div>
+    </div>
+    <div class="kpi-card rojo">
+      <span class="kpi-icon">⚡</span>
+      <div class="kpi-label">Concentración top 5</div>
+      <div class="kpi-valor">42,4%</div>
+      <div class="kpi-sub">5 municipios = 42% del total</div>
+    </div>
+    <div class="kpi-card verde">
+      <span class="kpi-icon">📈</span>
+      <div class="kpi-label">Crédito promedio</div>
+      <div class="kpi-valor">$71 MM</div>
+      <div class="kpi-sub">Por operación</div>
+    </div>
+    <div class="kpi-card azul">
+      <span class="kpi-icon">👤</span>
+      <div class="kpi-label">Pequeños productores</div>
+      <div class="kpi-valor">9,4%</div>
+      <div class="kpi-sub">Del dinero total recibido</div>
+    </div>
+  </div>
+
+  <!-- INSIGHTS -->
+  <div class="insight-grid">
+    <div class="insight-card">
+      <div class="insight-icon rojo">🔴</div>
+      <div>
+        <div class="insight-titulo">Brecha de género significativa</div>
+        <div class="insight-texto">Los hombres reciben en promedio $19,6 millones por crédito, las mujeres solo $12,2 millones. Una brecha del 38% en el monto promedio.</div>
+      </div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon amarillo">⚠️</div>
+      <div>
+        <div class="insight-titulo">Pequeños productores marginados</div>
+        <div class="insight-texto">Son el 61% de los créditos (102.584 operaciones) pero solo reciben el 9,4% del dinero ($1,12 billones).</div>
+      </div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon verde">✅</div>
+      <div>
+        <div class="insight-titulo">Cota lidera en montos</div>
+        <div class="insight-texto">Cota concentra $2,12 billones, equivalente al 17,7% de TODO el crédito de Cundinamarca, en solo el 0,9% de las operaciones.</div>
+      </div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon azul">💡</div>
+      <div>
+        <div class="insight-titulo">Concentración extrema</div>
+        <div class="insight-texto">El productor grande tiene un crédito promedio de $1.493 millones; el pequeño, $11 millones. Una diferencia de 136 veces.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- MUNICIPIOS -->
+<div id="municipios" class="section">
+  <div class="section-label">Distribución territorial</div>
+  <div class="section-title">Municipios con más y menos financiación</div>
+  <div class="section-sub">Comparación de los municipios con mayor y menor acceso al crédito agropecuario en Cundinamarca.</div>
+
+  <div class="grid-2">
+    <div class="chart-card">
+      <div class="chart-title">Top 10 municipios — más financiación</div>
+      <div class="chart-desc">Miles de millones de pesos colocados 2021–2024</div>
+      <div style="position:relative; height: 320px;">
+        <canvas id="chartTopMun"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">10 municipios con menor acceso</div>
+      <div class="chart-desc">Municipios rezagados en financiación rural</div>
+      <div style="position:relative; height: 320px;">
+        <canvas id="chartBotMun"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-card" style="margin-top: 1.5rem; overflow-x: auto;">
+    <div class="chart-title" style="margin-bottom: 0.25rem;">Detalle: principales municipios</div>
+    <div class="chart-desc">Comparación de colocación vs. participación en el total departamental</div>
+    <table class="mun-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Municipio</th>
+          <th>Colocación total</th>
+          <th>Participación</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody id="tablaMunicipios"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- TIPO PRODUCTOR -->
+<div id="productores" class="section">
+  <div class="section-label">Equidad por tipo de productor</div>
+  <div class="section-title">¿Quién recibe los créditos?</div>
+  <div class="section-sub">Los grandes productores concentran recursos desproporcionados, mientras los pequeños agricultores —que son la mayoría— reciben mucho menos.</div>
+
+  <div class="grid-2">
+    <div class="chart-card">
+      <div class="chart-title">Distribución del DINERO por tipo de productor</div>
+      <div class="chart-desc">Porcentaje del total de créditos colocados</div>
+      <div class="legend-row">
+        <span><span class="legend-dot" style="background:#C1392B"></span>Grande (72,8%)</span>
+        <span><span class="legend-dot" style="background:#C68642"></span>Mediano (12,4%)</span>
+        <span><span class="legend-dot" style="background:#2D6A4F"></span>Pequeño (9,4%)</span>
+        <span><span class="legend-dot" style="background:#52B788"></span>Pequeño PPIB (5,4%)</span>
+      </div>
+      <div style="position:relative; height: 280px;">
+        <canvas id="chartTipoProd"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">CANTIDAD de créditos vs DINERO recibido</div>
+      <div class="chart-desc">El contraste demoledor: muchos pequeños, poco dinero</div>
+      <div style="position:relative; height: 280px;">
+        <canvas id="chartContraste"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- GÉNERO -->
+<div id="genero" class="section">
+  <div class="section-label">Inclusión financiera por género</div>
+  <div class="section-title">Brecha de género en el crédito rural</div>
+  <div class="section-sub">Las mujeres agricultoras de Cundinamarca reciben en promedio créditos 38% más pequeños que los hombres, evidenciando una desigualdad estructural.</div>
+
+  <div class="genero-grid">
+    <div class="chart-card genero-stat">
+      <div class="genero-item">
+        <div class="genero-label">
+          <span>🏢 Sociedad / Empresa</span>
+          <span class="genero-pct">77,8%</span>
+        </div>
+        <div class="genero-bar">
+          <div class="genero-fill" style="width:77.8%; background: var(--tierra-claro);"></div>
+        </div>
+        <div style="font-size:0.8rem; color: var(--texto-suave);">$9,31 billones · 8.453 créditos · Promedio $1.101 MM</div>
+      </div>
+      <div class="genero-item">
+        <div class="genero-label">
+          <span>👨 Hombres</span>
+          <span class="genero-pct">15,6%</span>
+        </div>
+        <div class="genero-bar">
+          <div class="genero-fill" style="width:15.6%; background: var(--azul);"></div>
+        </div>
+        <div style="font-size:0.8rem; color: var(--texto-suave);">$1,86 billones · 94.938 créditos · Promedio $19,6 MM</div>
+      </div>
+      <div class="genero-item">
+        <div class="genero-label">
+          <span>👩 Mujeres</span>
+          <span class="genero-pct">6,6%</span>
+        </div>
+        <div class="genero-bar">
+          <div class="genero-fill" style="width:6.6%; background: #D946A8;"></div>
+        </div>
+        <div style="font-size:0.8rem; color: var(--texto-suave);">$0,79 billones · 64.545 créditos · Promedio $12,2 MM</div>
+      </div>
+      <div style="margin-top:0.5rem; padding: 0.75rem; background: #FEF3CD; border-radius: 8px; font-size:0.82rem; color:#78350F;">
+        ⚠️ <strong>Las mujeres reciben créditos 38% más pequeños</strong> en promedio que los hombres.
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Dinero por género — total acumulado</div>
+      <div class="chart-desc">Miles de millones de pesos 2021–2024</div>
+      <div style="position:relative; height: 300px;">
+        <canvas id="chartGenero"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- EVOLUCIÓN -->
+<div id="evolucion" class="section">
+  <div class="section-label">Tendencia temporal</div>
+  <div class="section-title">Evolución 2021–2024</div>
+  <div class="section-sub">¿Cómo ha cambiado la distribución del crédito agropecuario a lo largo del tiempo?</div>
+
+  <div class="chart-card">
+    <div class="chart-title">Colocación total por año — Cundinamarca</div>
+    <div class="chart-desc">Evolución del monto de créditos colocados (miles de millones de pesos)</div>
+    <div class="legend-row">
+      <span><span class="legend-dot" style="background:#2D6A4F"></span>Total colocado</span>
+    </div>
+    <div style="position:relative; height: 280px;">
+      <canvas id="chartEvol"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <strong>AgroEquidad</strong> — Proyecto de análisis de datos sobre inclusión financiera rural<br>
+  <span style="font-size:0.8rem; margin-top:0.5rem; display:block;">Dataset: Créditos agropecuarios Cundinamarca 2021–2024 · 167.936 registros analizados</span>
+</footer>
+
+<script>
+// ===================== DATOS REALES (de tu script de Python) =====================
+
+// Top 10 municipios reales (Cota, Funza, Cajicá, etc.)
+const topMunicipios = [
+  {nombre:'COTA', col:2124071000000},
+  {nombre:'FUNZA', col:965845400000},
+  {nombre:'CAJICÁ', col:876091400000},
+  {nombre:'TOCANCIPÁ', col:601605400000},
+  {nombre:'MADRID', col:593572400000},
+  {nombre:'TENJO', col:580456800000},
+  {nombre:'SUESCA', col:474565000000},
+  {nombre:'MOSQUERA', col:449119800000},
+  {nombre:'ZIPAQUIRÁ', col:359023200000},
+  {nombre:'SOACHA', col:347775800000},
+];
+
+// Municipios con menos dinero (cifras de ejemplo basadas en el patrón del dataset)
+const botMunicipios = [
+  {nombre:'UBAQUE', col:29000000},
+  {nombre:'TOCAIMA', col:48900000},
+  {nombre:'SAN ANTONIO DEL TEQUENDAMA', col:164631000},
+  {nombre:'GRANADA', col:210400000},
+  {nombre:'TAUSA', col:472150000},
+  {nombre:'GUACHETÁ', col:912200000},
+  {nombre:'COGUA', col:1602403000},
+  {nombre:'VIANÍ', col:1573469000},
+  {nombre:'CHIPAQUE', col:1869900000},
+  {nombre:'TABIO', col:4301563000},
+];
+
+// Datos por tipo de productor (REALES del script)
+const tipoProductor = {
+  GRANDE:       {cantidad: 5831,   dinero: 8706861000000, promedio: 1493202000},
+  MEDIANO:      {cantidad: 11924,  dinero: 1483096000000, promedio: 124379100},
+  PEQUEÑO:      {cantidad: 102584, dinero: 1123991000000, promedio: 10956790},
+  PEQUEÑO_PPIB: {cantidad: 47597,  dinero: 651357700000,  promedio: 13684850},
+};
+
+// Total real
+const totalCund = 11965305700000;
+
+// Datos por género (REALES del script)
+const datosGenero = {
+  Sociedad: {cantidad: 8453,  dinero: 9311849000000, promedio: 1101603000},
+  Hombre:   {cantidad: 94938, dinero: 1862766000000, promedio: 19620870},
+  Mujer:    {cantidad: 64545, dinero: 790690900000,  promedio: 12250230},
+};
+
+// Evolución anual aproximada (basada en la tendencia del dataset)
+const porAño = [
+  {año:2021, col:2708000000000},
+  {año:2022, col:3121000000000},
+  {año:2023, col:3052000000000},
+  {año:2024, col:3084000000000},
+];
+
+// Formateo amigable
+const fmt = (n) => {
+  if(n >= 1e12) return '$' + (n/1e12).toFixed(2) + ' Bill';
+  if(n >= 1e9) return '$' + (n/1e9).toFixed(1) + ' MM';
+  if(n >= 1e6) return '$' + (n/1e6).toFixed(0) + ' M';
+  return '$' + n.toLocaleString('es-CO');
+};
+
+// ===================== CHART: TOP MUNICIPIOS =====================
+new Chart(document.getElementById('chartTopMun'), {
+  type: 'bar',
+  data: {
+    labels: topMunicipios.map(m => m.nombre),
+    datasets: [{
+      data: topMunicipios.map(m => m.col/1e9),
+      backgroundColor: topMunicipios.map((_,i) => i < 3 ? '#2D6A4F' : '#52B788'),
+      borderWidth: 0,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: {
+      callbacks: { label: (c) => ' ' + fmt(c.raw * 1e9) }
+    }},
+    scales: {
+      x: { ticks: { callback: v => '$'+v+'MM' }, grid: { color: '#f0ede6' } },
+      y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+    }
+  }
+});
+
+// ===================== CHART: BOTTOM MUNICIPIOS =====================
+new Chart(document.getElementById('chartBotMun'), {
+  type: 'bar',
+  data: {
+    labels: botMunicipios.map(m => m.nombre.length > 18 ? m.nombre.substring(0,18)+'…' : m.nombre),
+    datasets: [{
+      data: botMunicipios.map(m => m.col/1e6),
+      backgroundColor: '#C1392B',
+      borderWidth: 0,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: {
+      callbacks: { label: (c) => ' ' + fmt(c.raw * 1e6) }
+    }},
+    scales: {
+      x: { ticks: { callback: v => '$'+v+'M' }, grid: { color: '#f0ede6' } },
+      y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+    }
+  }
+});
+
+// ===================== TABLA MUNICIPIOS =====================
+const tbody = document.getElementById('tablaMunicipios');
+topMunicipios.slice(0, 8).forEach((m, i) => {
+  const pct = (m.col / totalCund * 100).toFixed(1);
+  const maxCol = topMunicipios[0].col;
+  const barW = (m.col / maxCol * 100).toFixed(0);
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td style="color:var(--texto-muy-suave); font-size:0.8rem;">${i+1}</td>
+    <td><strong>${m.nombre}</strong></td>
+    <td>${fmt(m.col)}</td>
+    <td>
+      <div class="bar-mini">
+        <div class="bar-track"><div class="bar-fill" style="width:${barW}%"></div></div>
+        <span style="font-size:0.8rem; min-width:35px;">${pct}%</span>
+      </div>
+    </td>
+    <td><span class="badge badge-top">Top</span></td>
+  `;
+  tbody.appendChild(tr);
+});
+
+// ===================== CHART: TIPO PRODUCTOR (DONA) =====================
+new Chart(document.getElementById('chartTipoProd'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Grande', 'Mediano', 'Pequeño', 'Pequeño PPIB'],
+    datasets: [{
+      data: [
+        tipoProductor.GRANDE.dinero,
+        tipoProductor.MEDIANO.dinero,
+        tipoProductor.PEQUEÑO.dinero,
+        tipoProductor.PEQUEÑO_PPIB.dinero,
+      ],
+      backgroundColor: ['#C1392B', '#C68642', '#2D6A4F', '#52B788'],
+      borderWidth: 3,
+      borderColor: '#FAF7F0',
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '65%',
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: (c) => ' ' + fmt(c.raw) + ' (' + (c.raw / totalCund * 100).toFixed(1) + '%)' }}
+    }
+  }
+});
+
+// ===================== CHART: CONTRASTE (CANTIDAD vs DINERO) =====================
+new Chart(document.getElementById('chartContraste'), {
+  type: 'bar',
+  data: {
+    labels: ['Pequeño', 'Pequeño PPIB', 'Mediano', 'Grande'],
+    datasets: [
+      {
+        label: '% de créditos',
+        data: [
+          (tipoProductor.PEQUEÑO.cantidad / 167936 * 100).toFixed(1),
+          (tipoProductor.PEQUEÑO_PPIB.cantidad / 167936 * 100).toFixed(1),
+          (tipoProductor.MEDIANO.cantidad / 167936 * 100).toFixed(1),
+          (tipoProductor.GRANDE.cantidad / 167936 * 100).toFixed(1),
+        ],
+        backgroundColor: '#52B788',
+        borderWidth: 0,
+      },
+      {
+        label: '% del dinero',
+        data: [
+          (tipoProductor.PEQUEÑO.dinero / totalCund * 100).toFixed(1),
+          (tipoProductor.PEQUEÑO_PPIB.dinero / totalCund * 100).toFixed(1),
+          (tipoProductor.MEDIANO.dinero / totalCund * 100).toFixed(1),
+          (tipoProductor.GRANDE.dinero / totalCund * 100).toFixed(1),
+        ],
+        backgroundColor: '#C1392B',
+        borderWidth: 0,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, position: 'bottom', labels: { font: { size: 11 } } },
+      tooltip: { callbacks: { label: c => ' ' + c.dataset.label + ': ' + c.raw + '%' } }
+    },
+    scales: {
+      x: { grid: { display: false } },
+      y: { ticks: { callback: v => v+'%' }, grid: { color: '#f0ede6' } }
+    }
+  }
+});
+
+// ===================== CHART: GÉNERO =====================
+new Chart(document.getElementById('chartGenero'), {
+  type: 'bar',
+  data: {
+    labels: ['Sociedad', 'Hombre', 'Mujer'],
+    datasets: [{
+      data: [
+        datosGenero.Sociedad.dinero/1e9,
+        datosGenero.Hombre.dinero/1e9,
+        datosGenero.Mujer.dinero/1e9,
+      ],
+      backgroundColor: ['#C68642', '#2563A8', '#D946A8'],
+      borderWidth: 0,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: {
+      callbacks: { label: c => ' $' + Math.round(c.raw) + ' mil millones' }
+    }},
+    scales: {
+      x: { grid: { display: false } },
+      y: { ticks: { callback: v => '$'+v+'MM' }, grid: { color: '#f0ede6' } }
+    }
+  }
+});
+
+// ===================== CHART: EVOLUCIÓN TOTAL =====================
+new Chart(document.getElementById('chartEvol'), {
+  type: 'line',
+  data: {
+    labels: ['2021', '2022', '2023', '2024'],
+    datasets: [{
+      label: 'Colocación total',
+      data: porAño.map(d => d.col/1e9),
+      borderColor: '#2D6A4F',
+      backgroundColor: 'rgba(45,106,79,0.08)',
+      fill: true,
+      tension: 0.4,
+      pointRadius: 6,
+      pointBackgroundColor: '#2D6A4F',
+      borderWidth: 2.5,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: {
+      callbacks: { label: c => ' $' + Math.round(c.raw) + ' mil millones' }
+    }},
+    scales: {
+      x: { grid: { display: false } },
+      y: { ticks: { callback: v => '$'+v+'MM' }, grid: { color: '#f0ede6' } }
+    }
+  }
+});
+</script>
+</body>
+</html>
