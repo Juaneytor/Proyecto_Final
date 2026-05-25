@@ -228,6 +228,114 @@
 
 <div class="sep"></div>
 
+<!-- EDUCACIÓN FINANCIERA -->
+<div class="section">
+  <div class="section-label">Educación financiera</div>
+  <div class="section-title">Aprende sobre créditos agropecuarios</div>
+  <div class="section-sub">
+    Explicación simple para entender cómo funcionan los créditos y cómo puedes acceder a ellos.
+  </div>
+
+  <div class="insight-grid">
+
+    <!-- Cómo pedir crédito -->
+    <div class="insight-card">
+      <div class="insight-icon verde">📌</div>
+      <div>
+        <div class="insight-titulo">Cómo pedir un crédito</div>
+        <div class="insight-texto">
+          1. Reúne documentos<br>
+          2. Elige entidad<br>
+          3. Solicita el crédito<br>
+          4. Espera aprobación
+        </div>
+      </div>
+    </div>
+
+    <!-- Documentos -->
+    <div class="insight-card">
+      <div class="insight-icon azul">📄</div>
+      <div>
+        <div class="insight-titulo">Documentos necesarios</div>
+        <div class="insight-texto">
+          ✔ Cédula<br>
+          ✔ Certificado del terreno<br>
+          ✔ Plan de cultivo
+        </div>
+      </div>
+    </div>
+
+    <!-- Consejos -->
+    <div class="insight-card">
+      <div class="insight-icon verde">✅</div>
+      <div>
+        <div class="insight-titulo">Cómo aumentar aprobación</div>
+        <div class="insight-texto">
+          Tener historial de pagos, plan claro y asociarse a cooperativas mejora tus opciones.
+        </div>
+      </div>
+    </div>
+
+    <!-- Errores -->
+    <div class="insight-card">
+      <div class="insight-icon rojo">❌</div>
+      <div>
+        <div class="insight-titulo">Errores comunes</div>
+        <div class="insight-texto">
+          Pedir más dinero del necesario o no entender condiciones puede hacerte perder el crédito.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="sep"></div>
+
+
+<!-- RECOMENDACIÓN DE CRÉDITO -->
+<div class="section">
+  <div class="section-label">Asistente inteligente</div>
+  <div class="section-title">Encuentra el crédito ideal para ti</div>
+  <div class="section-sub">
+    Ingresa tu información y te recomendamos el crédito más adecuado según tu perfil.
+  </div>
+
+  <div class="chart-card">
+
+    <!-- FORMULARIO -->
+    <div style="display:grid; gap:1rem; margin-bottom:1.5rem;">
+      
+      <select id="cultivo">
+        <option value="">Tipo de cultivo</option>
+        <option value="papa">Papa</option>
+        <option value="cafe">Café</option>
+        <option value="maiz">Maíz</option>
+      </select>
+
+      <select id="tamano">
+        <option value="">Tamaño productor</option>
+        <option value="pequeno">Pequeño</option>
+        <option value="mediano">Mediano</option>
+        <option value="grande">Grande</option>
+      </select>
+
+      <button onclick="recomendarCredito()" style="padding:10px; background:#2D6A4F; color:white; border:none; border-radius:8px;">
+        Obtener recomendación
+      </button>
+    </div>
+
+    <!-- RESULTADO -->
+    <div id="resultadoCredito" style="display:none; padding:1rem; border-radius:10px; background:#D8F3DC;">
+      <strong id="nombreCredito"></strong><br>
+      <span id="detalleCredito"></span>
+    </div>
+
+  </div>
+</div>
+
+<div class="sep"></div>
+
 <!-- MUNICIPIOS -->
 <div id="municipios" class="section">
   <div class="section-label">Distribución territorial</div>
@@ -650,6 +758,37 @@ new Chart(document.getElementById('chartEvol'), {
     }
   }
 });
+
+
+function recomendarCredito() {
+  const cultivo = document.getElementById("cultivo").value;
+  const tamano = document.getElementById("tamano").value;
+
+  let credito = "";
+  let detalle = "";
+
+  if (tamano === "pequeno") {
+    credito = "Crédito Finagro Pequeño Productor";
+    detalle = "Ideal para pequeños agricultores con montos bajos y subsidios.";
+  } 
+  else if (tamano === "mediano") {
+    credito = "Crédito Agropecuario Mediano";
+    detalle = "Permite financiar producción con montos intermedios.";
+  } 
+  else if (tamano === "grande") {
+    credito = "Crédito Empresarial Agro";
+    detalle = "Diseñado para grandes inversiones agrícolas.";
+  }
+
+  if (cultivo === "papa") {
+    detalle += " Recomendado para cultivo de papa.";
+  }
+
+  document.getElementById("resultadoCredito").style.display = "block";
+  document.getElementById("nombreCredito").innerText = credito;
+  document.getElementById("detalleCredito").innerText = detalle;
+}
+
 </script>
 </body>
 </html>
